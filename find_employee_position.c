@@ -1,3 +1,9 @@
+/*
+	EMS - find_employee_position.c
+	ID와 일치하는 Employee의 텍스트 시작 위치와 끝 위치를 계산
+	ID 끝 위치의 뒤 데이터를 시작 위치에 덮어쓰는 기능
+	Copyright (C) Naive-C naive.c.cell@gmail.com
+*/
 #include <stdio.h>
 #include "file_length.c"
 
