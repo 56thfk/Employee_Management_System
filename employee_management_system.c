@@ -1,9 +1,17 @@
+/*
+	EMS - employee_management_system.c
+	Employee Management
+	Copyrigit (C) 2021 Naive-C <naive.c.cell@gmail.com>
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
 #include <time.h>
+
+#include "find_employee.c"
 
 #define READ_FILE (employee_fp = fopen("Employee.txt", "r")) == NULL
 
@@ -12,24 +20,27 @@ const int DEFAULT_STARTING_SALARY = 3000;
 
 struct employee_information
 {
-	char		 ID[10];
+	char		 id[10];
 	char first_name[50];
 	char  last_name[50];
 	char   	  email[50];
 	char 	  phone[12];
 
-	int salary;
+	size_t salary;
 
    	_Bool fire_flag;
 	_Bool hire_flag;
 };
 struct employee_information Employee = {
+	.id			= "",
 	.first_name = "",
 	.last_name  = "",
 	.salary 	= DEFAULT_STARTING_SALARY,
 	.fire_flag  = true,
 	.hire_flag  = false
 };
+
+//TODO find_employee_position의 인자값 받는 구조체 생성
 
 void print_header(const char* current_page);
 void main_menu(const char* message);
@@ -92,6 +103,10 @@ void add()
 
 	employee_fp = fopen("Employee.txt", "a+");
 
+	printf("		>> ID: ");
+	fflush(stdin);
+	scanf("%10[^\n]", Employee.id);
+
 	printf("		>> First Name: ");
 	fflush(stdin);
 	scanf("%50[^\n]", Employee.first_name);
@@ -100,16 +115,16 @@ void add()
 	fflush(stdin);
 	scanf("%50[^\n]", Employee.last_name);
 
-	//TODO: fire_flag = false
-	//TODO: hire_flag = true
+	//TODO: hire_flag는 true, fire_flag는 false로 변경
 
 	printf("		>> Salary: ");
 	fflush(stdin);
-	scanf("%d", &Employee.salary);
+	scanf("%zu", &Employee.salary);
 
+	printf("		ID		  : %s\n", Employee.id);
 	printf("		First Name: %s\n", Employee.first_name);
 	printf("		Last Name : %s\n", Employee.last_name);
-	printf("		Salary    : %d\n", Employee.salary);
+	printf("		Salary    : %zu\n", Employee.salary);
 	printf("        --------------------------------------------------------          \n");
 	printf("		Record Data\n");
 	printf("		<Y>Yes		<N>No\n");
@@ -118,7 +133,7 @@ void add()
 add_employee_retry:
 	switch(tolower(getchar())){
 		case 'y':
-			fprintf(employee_fp, "%s\n%s\n%d\n", Employee.first_name, Employee.last_name, Employee.salary);
+			fprintf(employee_fp, "%s %s %s %zu\n", Employee.id, Employee.first_name, Employee.last_name, Employee.salary);
 			fclose(employee_fp);
 			main_menu("Sucess");
 			break;
@@ -145,9 +160,9 @@ void view_list()
 
 	print_header("			 Employee >> View List\n");
 
-	while((n = fscanf(employee_fp, "%[^\n]\n%[^\n]\n%d\n", 
-		   Employee.first_name, Employee.last_name, &Employee.salary)) != EOF){
-			//TODO: interface 구현
+	while((n = fscanf(employee_fp, "%s %s %s %zu", 
+		   Employee.id, Employee.first_name, Employee.last_name, &Employee.salary)) != EOF){
+			printf("%s %s %s %zu\n", Employee.id, Employee.first_name, Employee.last_name, Employee.salary);
 		counter++;
 	}
 
@@ -161,8 +176,8 @@ void edit()
 //TODO
 }
 
-/* 직원 삭제*/
-void delete()
+/* 직원 정보 삭제*/
+void delete(const char* in_id)
 {
 //TODO
 }
