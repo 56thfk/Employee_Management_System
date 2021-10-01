@@ -85,6 +85,7 @@ unknown_char_main_menu_retry:
     }   
 }
 
+/* 직원 추가 기능*/
 void add()
 {
 	print_header("		Employee >> Add\n\n");
@@ -129,11 +130,13 @@ add_employee_retry:
 	}
 }
 
+/* 직원 검색*/
 void search()
 {
 //TODO
 }
 
+/* 직원 리스트 출력 */
 void view_list()
 {
 	system("clear");
@@ -152,11 +155,13 @@ void view_list()
 	//TODO: main_menu 실행 
 }
 
+/* 직원 정보 수정*/
 void edit()
 {
 //TODO
 }
 
+/* 직원 삭제*/
 void delete()
 {
 //TODO
