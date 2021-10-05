@@ -47,7 +47,10 @@ void main_menu(const char* message);
 void add();
 void edit();
 void delete();
-void search();
+void search_menu();
+void searchById();
+void searchByFirstname();
+void searchByLastname();
 void view_list();
 
 int main()
@@ -78,7 +81,7 @@ unknown_char_main_menu_retry:
 			READ_FILE ? main_menu("") : view_list();
 			break;
         case '2':
-			READ_FILE ? main_menu("") : search();
+			READ_FILE ? main_menu("") : search_menu("");
 			break;
         case '3':
 			READ_FILE ? main_menu("") : edit();
@@ -145,11 +148,135 @@ add_employee_retry:
 	}
 }
 
-/* 직원 검색*/
-void search()
+void search_menu(const char* message)
 {
-//TODO
+	print_header("");
+	printf("          ▄▄▄▄  ▄▄▄▄  ▄▄▄  ▄▄▄▄   ▄▄▄▄ ▄   ▄     ▄▄▄▄▄  ▄▄▄▄ ▄   ▄ ▄   ▄       \n");
+	printf("         ▀▄▄▄  █▄▄▄▄ █▄▄▄█ █▄▄▄▀ █     █▄▄▄█     █ █ █ █▄▄▄▄ █▀▄ █ █   █	   \n");
+	printf("         ▄▄▄▄▀ ▀▄▄▄▄ █   █ █   █ ▀▄▄▄▄ █   █     █ █ █ ▀▄▄▄▄ █  ▀█ █▄▄▄█	   \n");
+	printf("             --------------------------------------------------------          \n");
+	printf("                              <1> Search By ID                                 \n");
+	printf("                              <2> Search By Firstname                          \n");
+	printf("                              <3> Search By Lastname                           \n");
+	printf("             --------------------------------------------------------          \n");
+	printf("                                                             <0> Exit          \n");
+	printf("             입력: ");
+
+unknown_char_search_menu_retry:
+	switch (getchar()) {
+	case '1':
+		READ_FILE ? main_menu("") : view_list();
+		break;
+	case '2':
+		READ_FILE ? main_menu("") : search();
+		break;
+	case '3':
+		READ_FILE ? main_menu("") : edit();
+		break;
+	case '0':
+		system("cls");
+		main_menu("");
+		break;
+	default:
+		goto unknown_char_search_menu_retry;
+	}
 }
+
+/* 직원 검색*/
+void searchById()
+{
+	print_header("		Search By Employee's ID\n\n");
+	employee_fp = fopen("Employee.txt", "r");
+
+	char string[100];
+	char input[10];
+	int num = 0;
+
+	printf("		>> ID: ");
+	fflush(stdin);
+	scanf("%10[^\n]", input);
+
+	while (!feof(employee_fp))
+	{
+		fgets(string, 100, employee_fp);
+
+		if (strstr(string, input) != NULL)
+		{
+			printf("%s", string);
+			num++;
+		}
+	}
+	printf("총 %d명의 직원을 찾았습니다 !", num);
+
+	if (num == 0)
+		printf("해당 ID를 가지고 있는 직원을 찾을 수 없습니다.");
+
+	fclose(employee_fp);
+}
+
+void searchByFirstname()
+{
+	print_header("		Search By Employee's First Name\n\n");
+	employee_fp = fopen("Employee.txt", "r");
+
+	char string[100];
+	char input[50];
+	int num = 0;
+
+	printf("		>> First Name: ");
+	fflush(stdin);
+	scanf("%50[^\n]");
+
+	while (!feof(employee_fp))
+	{
+		fgets(string, 100, employee_fp);
+
+		if (strstr(string, input) != NULL)
+		{
+			printf("%s", string);
+			num++;
+		}
+	}
+	printf("총 %d명의 직원을 찾았습니다 !", num);
+
+	if (num == 0)
+		printf("해당 First Name을 가지고 있는 직원을 찾을 수 없습니다.");
+
+	fclose(employee_fp);
+}
+
+void searchByLastname()
+{
+	print_header("		Search By Employee's Last Name\n\n");
+	employee_fp = fopen("Employee.txt", "r");
+
+	char string[100];
+	char input[50];
+	int num = 0;
+
+	printf("		>> Last Name: ");
+	fflush(stdin);
+	scanf("%50[^\n]");
+
+	while (!feof(employee_fp))
+	{
+		fgets(string, 100, employee_fp);
+
+		if (strstr(string, input) != NULL)
+		{
+			printf("%s", string);
+			num++;
+		}
+	}
+	printf("총 %d명의 직원을 찾았습니다 !", num);
+
+	if (num == 0)
+		printf("해당 Last Name을 가지고 있는 직원을 찾을 수 없습니다.");
+
+	fclose(employee_fp);
+}
+
+
 
 /* 직원 리스트 출력 */
 void view_list()
